@@ -1,0 +1,58 @@
+<configuration packagingData="true">
+    <!--<contextListener clacom.epic.utils.LogbackConfigProviderImplmplener"/>-->
+    <!--<property name="LOG_HOME" value="C:/Users/thilina_h/EPIC" />-->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <withJansi>true</withJansi>
+        <file>${log.home}/debug/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${log.home}/debug/debug.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %-5level %logger{15} [%X{req_id}][%X{session}][%X{uname}] - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="TRACE_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.home}/trace/trace.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- daily rollover -->
+            <fileNamePattern>${log.home}/trace/trace.%d{yyyy-MM-dd}.log</fileNamePattern>
+
+            <!-- keep 365 days' worth of history capped at 5GB total size -->
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>5GB</totalSizeCap>
+
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%X{req_id}] [%X{session}] [%X{uname}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!--<appender name="htmlAppender" class="ch.qos.logback.core.FileAppender">-->
+        <!--<file>${log.home}/log.html</file>-->
+        <!--<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
+            <!--<layout class="ch.qos.logback.classic.html.HTMLLayout">-->
+                <!--<pattern>%thread%level%logger[%X{uname}] %msg</pattern>-->
+            <!--</layout>-->
+        <!--</encoder>-->
+    <!--</appender>-->
+
+    <root level="DEBUG">
+        <appender-ref ref="DEBUG_FILE"/>
+    </root>
+
+    <logger name="TRACE_LOGGER" level="TRACE" additivity="false">
+        <appender-ref ref="TRACE_FILE"/>
+    </logger>
+
+</configuration>
